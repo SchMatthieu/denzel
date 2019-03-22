@@ -29,13 +29,12 @@ app.get('/movies/populate', async (req, res) => {
 		var nbDocs = 0;
 		collection.find({ id: `${movie.id}` }).toArray((err, docs) => {
 			if (err) {
-				return response.status(500).send(err);
+				return res.status(500).send(err);
 			}
 			nbDocs = docs.length;
 			if (nbDocs > 0) {
 				console.log('Movie ' + movie.id + ' already in the DB..');
 			} else {
-				counter = counter + 1;
 				collection.insertOne(movie, (err) => {
 					if (err) {
 						console.log(err);
@@ -121,14 +120,10 @@ const queryType = new GraphQLObjectType({
 				movies.forEach((movie) => {
 					var nbDocs = 0;
 					collection.find({ id: `${movie.id}` }).toArray((err, docs) => {
-						if (err) {
-							return response.status(500).send(err);
-						}
 						nbDocs = docs.length;
 						if (nbDocs > 0) {
 							console.log('Movie ' + movie.id + ' already in the DB..');
 						} else {
-							counter = counter + 1;
 							collection.insertOne(movie, (err) => {
 								if (err) {
 									console.log(err);
@@ -178,7 +173,7 @@ const queryType = new GraphQLObjectType({
 				meta = Number(args.metascore);
 				if (meta > 100) meta = 100;
 				if (Number(args.limit) <= 5) limit = Number(args.limit);
-				movies = await collection.find({ metascore: { $gte: meta } }).sort({ metascore: -1 }).toArray();
+				var movies = await collection.find({ metascore: { $gte: meta } }).sort({ metascore: -1 }).toArray();
 				var moviesSearched = [];
 				for (let i = 0; i < limit; i++) {
 					if (movies[i] != null) {
@@ -215,7 +210,7 @@ app.use(
 
 /*---------- GRAPHQL ----------*/
 
-app.listen(9292, () => {
+app.listen(3000, () => {
 	MongoClient.connect(CONNECTION_URL, { useNewUrlParser: true }, (error, client) => {
 		if (error) {
 			throw error;
