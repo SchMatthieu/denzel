@@ -98,7 +98,7 @@ app.get('/movies/search', (req, res) => {
 app.post('/movies/:id', (req, res) => {
 	collection.updateOne({ id: req.params.id }, { $set: req.body }, (err, result) => {
 		if (err) {
-			return res.status(500).send(error);
+			return res.status(500).send(err);
 		}
 		res.send(result);
 	});
@@ -210,7 +210,7 @@ app.use(
 
 /*---------- GRAPHQL ----------*/
 
-app.listen(3000, () => {
+app.listen(9292, () => {
 	MongoClient.connect(CONNECTION_URL, { useNewUrlParser: true }, (error, client) => {
 		if (error) {
 			throw error;

@@ -17,7 +17,7 @@ class App extends Component {
 	}
 
 	handleClick() {
-		axios.get('https://chickennem-denzel.glitch.me/movies').then((response) =>
+		axios.get('http://localhost:9292/movies').then((response) =>
 			this.setState({
 				title: response.data.title,
 				link: response.data.link,
@@ -31,23 +31,26 @@ class App extends Component {
 
 	render() {
 		return (
-			<div>
-				<p>Titre : {this.state.title}</p>
-				<p>Synopsis :{this.state.synopsis}</p>
-				<p>Metascore : {this.state.metascore}</p>
-				<p>
-					Poster : <img src={this.state.poster} />
-				</p>
-				<p>Review : {this.state.review}</p>
-				<p>
-					Link :{' '}
-					<a href={this.state.link} target="_blank">
-						{this.state.link}
-					</a>{' '}
-				</p>
-        <button className="button" onClick={this.handleClick}>
-					Click Me
-				</button>
+			<div class="center row">
+				<div class="column">
+					<img class="center" src={this.state.poster} />
+				</div>
+				<div class="column">
+					<p>Titre : {this.state.title}</p>
+
+					<p>Synopsis : {this.state.synopsis}</p>
+					<p>Metascore : {this.state.metascore}</p>
+					<p>Review : {this.state.review}</p>
+					<p>
+						Link :{' '}
+						<a href={this.state.link} target="_blank">
+							{this.state.link}
+						</a>{' '}
+					</p>
+					<button className="button" onClick={this.handleClick}>
+						Get Random Movie
+					</button>
+				</div>
 			</div>
 		);
 	}
